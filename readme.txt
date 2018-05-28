@@ -27,3 +27,7 @@ la funcion guardarImagen() no está implementada como OOP aun.
 8) Javi tenia declarado como abstract varias funciones en dB.php ver si es necesario implementarlo asi
 
 9)revisar config-perfil.php y perfil.php (sobre todos las invocaciones a las funciones como objetos de clase).
+
+10) revisar soporte.php
+
+11) no toque ni DBMySQL ni script.php porque no hay que aplicarle OOP.
