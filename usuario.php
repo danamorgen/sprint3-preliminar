@@ -24,6 +24,22 @@ private $imagen; //agrego la variable imagen
 
 }*/
 
+//agrego funcion crearUsuario()
+function crearUsuario($data, $imagen){
+    $usuario = [
+        'id' => traerUltimoId(),
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'username' => $data['username'],
+        'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
+        'pais' => $data['pais'],
+        'imagen' => 'imagenUsuarios/' . $data['email'] . '.' . pathinfo($imagen['name'], PATHINFO_EXTENSION)
+
+    ];
+
+    return $usuario;
+}
+
 // setters y getters
 public function setId($id){
   $this->id=$id;
@@ -100,8 +116,7 @@ public function guardar(Usuario $usuario){ // le saque el static
 public function loguear(){
 
 }*/
-
-  //      'imagen' => 'imagenUsuarios/' . $data['email'] . '.' . pathinfo($imagen['name'], PATHINFO_EXTENSION)
+  // 'imagen' => 'imagenUsuarios/' . $data['email'] . '.' . pathinfo($imagen['name'], PATHINFO_EXTENSION)
 
 
 

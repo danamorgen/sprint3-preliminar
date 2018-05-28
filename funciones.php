@@ -1,11 +1,13 @@
 <?php
 session_start();
 
+
 if (isset($_COOKIE['id'])) {
 		$_SESSION['id'] = $_COOKIE['id'];
 	}
 
-function crearUsuario($data, $imagen){
+//comenta la funcion, la mudé a la clase Usuario
+/*function crearUsuario($data, $imagen){
     $usuario = [
         'id' => traerUltimoId(),
         'name' => $data['name'],
@@ -18,8 +20,10 @@ function crearUsuario($data, $imagen){
     ];
 
     return $usuario;
-}
+}*/
 
+//comento la funcion, la mudé a la clase dbJSON
+/*
 function guardarImagen($imagen){   // aca modifique $imagen antes estaba $_FILES[$imagen]
     // $errores = [];
    if ($imagen['error'] == UPLOAD_ERR_OK) {
@@ -33,28 +37,30 @@ function guardarImagen($imagen){   // aca modifique $imagen antes estaba $_FILES
 				       $rutaFinalConNombre = $direccionReal . '/imagenUsuarios/' . $_POST['email'] . '.' . $ext;
 				       // Subo la imagen definitivamente
 				       move_uploaded_file($archivoFisico, $rutaFinalConNombre);
-				                  /* } else {
+				                  } else {
 				                       $errores['imagen'] = 'El formato tiene que ser JPG, JPEG, PNG o GIF';
 				                     }
 				                   } else {
 				                     // Genero error si no se puede subir
 				                     $errores['imagen'] = 'No subiste nada';
 				                   }
-				                    return $errores;*/
+				                    return $errores;
 				                    // VAMOS A PROBAR HACIENDO QUE guardarImagen no devuelva nada simplemente se dedique a guardar la imagen
 
  }
-}
+}*/
 
-function guardarUsuario($data, $imagen){  /*ACA HAY ALGO PARA PREGUNTAR*/
+//comento la funcion, la mudé a la clase dbJSON
+/*function guardarUsuario($data, $imagen){  //ACA HAY ALGO PARA PREGUNTAR
       $usuario = crearUsuario($data, $imagen);
    		$usuarioJSON = json_encode($usuario);
    		file_put_contents('usuarios.json', $usuarioJSON . PHP_EOL, FILE_APPEND);
    		// Devuelvo al usuario para poder auto loguearlo después del registro   MIRAR ACAAAAAAAAAAAAAAAAAAAAAAAAAAA
    		return $usuario;
-}
+}*/
 
-function traerTodos(){ /*trae todos los usuarios que estan en el json*/
+//comento la funcion, la mudé a la clase dbJSON
+/*function traerTodos(){ //trae todos los usuarios que estan en el json
   		$todosJson = file_get_contents('usuarios.json');
   		// Esto me arma un array con todos los usuarios
   		$usuariosArray = explode(PHP_EOL, $todosJson);    // creo que usuariosArray tiene solo 2 posiciones la ultima es vacia
@@ -67,9 +73,10 @@ function traerTodos(){ /*trae todos los usuarios que estan en el json*/
   			$todosPHP[] = json_decode($usuario, true);   // PREGUNTAR PORQUE HACEMOS ESTO EN UN foreach !!!!!!!!!!!!!!!!!!!!!!!!!!!
   		}
   		return $todosPHP;
-}
+}*/
 
-function traerUltimoId(){
+//comento la funcion, la mudé a la clase dbJSON
+/*function traerUltimoId(){
   $arrayDeUsuarios=traerTodos();
   if(empty($arrayDeUsuarios)){
       return 1;
@@ -77,9 +84,10 @@ function traerUltimoId(){
   $elUltimo = array_pop($arrayDeUsuarios);
   $id = $elUltimo['id'];
   return $id + 1;
-}
+}*/
 
-function existeMail($email){
+//comento la funcion, la mudé a la clase dbJSON
+/*function existeMail($email){
   $todos = traerTodos();
   foreach ($todos as $unUsuario) {
   			if ($unUsuario['email'] == $email) {
@@ -87,9 +95,10 @@ function existeMail($email){
   																				 }
   	                              }
 	return false;
-}  /* SI EXISTE ME DEVUELVE EL USUARIO*/
+}*/  //SI EXISTE ME DEVUELVE EL USUARIO
 
-function validar($data, $imagen){
+//comento la función, está declarada en la clase Validaciones
+/*function validar($data, $imagen){
   global $errores;     // ME CONVIENE ESTO O SIMPLEMENTE DECLARAR UNA VARIABLE LOCAL??? PREG
   $name = trim($_POST['name']);
   $email = trim($_POST['email']);
@@ -134,9 +143,10 @@ function validar($data, $imagen){
                 }
    }
    return $errores;
- }
+ }*/
 
-function validarLogin($data){  // ACA HAY ALGO QUE TENGO QUE PREGUNTAR
+//comento la función, está declarada en la clase Validaciones
+/*function validarLogin($data){  // ACA HAY ALGO QUE TENGO QUE PREGUNTAR
   $arrayADevolver = [];
 		$email = trim($data['e-mail']);
 		$pass = trim($data['password']);
@@ -145,31 +155,36 @@ function validarLogin($data){  // ACA HAY ALGO QUE TENGO QUE PREGUNTAR
 											} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 																										$arrayADevolver['email'] = 'Poné un formato de email válido';
 																									} elseif (!$usuario= existeMail($email)) {   //  <--- MIRAR ACA ME GENERA DUDA
-              																		/*  SI NO EXISTE EL MAIL   !false= false*/
+              																		//SI NO EXISTE EL MAIL   !false= false
 																										$arrayADevolver['email'] = 'Este email no está registrado';
 																																						} else {
 																											// Si el mail existe, me guardo al usuario dueño del mismo
 																										 // $usuario = existeMail($email);   //Esta demas esta creo
-/* el $usuario=existeMail se ejecuta igual no?*/		  	if (!password_verify($pass, $usuario["pass"])) {
+		  	if (!password_verify($pass, $usuario["pass"])) {
+																						//el $usuario=existeMail se ejecuta igual no?
 																	         	$arrayADevolver['pass'] = "Credenciales incorrectas";
 																	      	}
 																				}
 		return $arrayADevolver;
 }
+*/
 
-function loguear($usuario) {
+//comento la funcion, la mudé a clase auth.php
+/*function loguear($usuario) {
 		// Guardo en $_SESSION el ID del USUARIO
 		setcookie('id', $usuario['id'], time() + 3600 * 24 * 30);
 	  $_SESSION['id'] = $usuario['id'];
 		header('location: perfil.php');
 		exit;
-	}
+	}*/
 
-
-  function estaLogueado() {
+//comento la funcion, la mudé a clase auth.php
+/*  function estaLogueado() {
 		return isset($_SESSION['id']);
-	}
+	}*/
 
+//comento la funcion, la mudé a la clase dbJSON
+/*
   function traerPorId($id){
 		$todos = traerTodos();
 		// Recorro el array de todos los usuarios
@@ -179,5 +194,5 @@ function loguear($usuario) {
 			}
 		}
 		return false;
-	}
+	}*/
  ?>

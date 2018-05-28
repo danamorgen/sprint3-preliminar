@@ -73,8 +73,4 @@ public function validarLogin($data){
 
 }
 
-public function estaLogueado(){
-
-}
-
 } ?>

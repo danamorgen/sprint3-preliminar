@@ -1,9 +1,10 @@
 <?php
-
+/*
 class Usuarios{
 
+
 public function traerTodos(){
-        /*trae todos los usuarios que estan en el json*/
+        //trae todos los usuarios que estan en el json
     		$todosJson = file_get_contents('usuarios.json');
     		// Esto me arma un array con todos los usuarios
     		$usuariosArray = explode(PHP_EOL, $todosJson);    // creo que usuariosArray tiene solo 2 posiciones la ultima es vacia
@@ -55,5 +56,5 @@ public function existeMail($email){
     																				 }
     	                              }
   	return false;
-  }  /* SI EXISTE ME DEVUELVE EL USUARIO*/
-}
+  }  // SI EXISTE ME DEVUELVE EL USUARIO
+}*/

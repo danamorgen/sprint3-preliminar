@@ -1,9 +1,9 @@
 <?php
-require_once('funciones.php');
+require_once('funciones.php'); //borrar una vez que esten migradas las funciones
 require_once('soporte.php');
 require_once('usuario.php');
 
-	if (!estaLogueado()) {  /*esta logueado devuelve si la session[id] esta seteada o no */
+	if (!estaLogueado()) {  //esta logueado devuelve si la session[id] esta seteada o no
 		header('location: inicio-sesion.php');
 		exit;
 	}
