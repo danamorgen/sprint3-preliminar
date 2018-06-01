@@ -7,7 +7,7 @@ require_once('soporte.php');
 		header('location: inicio-sesion.php');
 		exit;
 	}
-	$usuario = traerPorId($_SESSION['id']);
+	$usuario = $db->traerPorId($_SESSION['id']);
  ?>
 <!DOCTYPE html>
 <html>

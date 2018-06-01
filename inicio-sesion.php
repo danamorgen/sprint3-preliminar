@@ -1,10 +1,10 @@
 <?php
-require_once("funciones.php");
+
 require_once('usuarios.php');
 require_once('validaciones.php');
 
-
-if (estaLogueado()) {
+//agrego invocacion de funcion estaLogueado() como objeto de clase auth
+if ($auth->estaLogueado()) {
 		header('location: perfil.php');
 		exit;
 	}
@@ -15,13 +15,17 @@ if (estaLogueado()) {
 	// Si envían algo por $_POST
 	if ($_POST) {
 		$email = trim($_POST['e-mail']);
-		$errores = Validaciones::validarLogin($_POST);
+		//declaro validarLogin como funcion de objeto de clase validaciones
+		$errores = $validator->validarLogin($db);
 		if (empty($errores)) {
-			$usuario = Usuarios::existeMail($email);
-			loguear($usuario);  	// Seteo la cookie
+			$usuario = $db->existeMail($email);
+			//$auth->loguear($usuario);
+			// Seteo la cookie
 			if (isset($_POST["recordar"])) {
-	        setcookie('id', $usuario['id'], time() + 3600 * 24 * 30);
+	        setcookie('id', $usuario->getId(), time() + 3600 * 24 * 30);
 	      }
+				//cambio la ubicacion del logueo
+			$auth->loguear($usuario);  	// Seteo la cookie
 			header('location: perfil.php');
 			exit;
 		}
@@ -94,7 +98,6 @@ if (estaLogueado()) {
 				</ul>
 			</div>
 		<?php endif; ?>
-
 
 
 

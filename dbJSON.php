@@ -14,10 +14,10 @@ public function __construct(){
 //busca si existe un usuario registrado con ese mail en el Json
 public function existeMail($email){
 
-    $todos = self::traerTodos();
+    $todos = $this->traerTodos();
 
     foreach ($todos as $unUsuario) {
-    			if ($unUsuario['email'] == $email) {                                               // ACAAAAAAAAAAAAAAA
+    			if ($unUsuario->getEmail() == $email) {                                               // ACAAAAAAAAAAAAAAA
     							return $unUsuario;
     																				 }
     	                              }
@@ -26,7 +26,7 @@ public function existeMail($email){
 
 //trae todos los usuarios del Json
 public function traerTodos(){
-    		$todosJson = file_get_contents('usuarios.json');
+    		$todosJson = file_get_contents($this->archive);
     		// Esto me arma un array con todos los usuarios
     		$usuariosArray = explode(PHP_EOL, $todosJson);    // creo que usuariosArray tiene solo 2 posiciones la ultima es vacia
     		// Saco el último elemento que es una línea vacia
@@ -35,16 +35,21 @@ public function traerTodos(){
     		$todosPHP = [];
     		// Recorremos el array y generamos por cada usuario un array del usuario
     		foreach ($usuariosArray as $usuario) {
-    			$todosPHP[] = json_decode($usuario, true);   // PREGUNTAR PORQUE HACEMOS ESTO EN UN foreach !!!!!!!!!!!!!!!!!!!!!!!!!!!
-    		}
+    			$usuarioJSON[] = json_decode($usuario, true);   // PREGUNTAR PORQUE HACEMOS ESTO EN UN foreach !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //agrego para que devuelva un array de objetos de la clase USUARIO
+        $usuario= new Usuario($usuarioJSON['name'],$usuarioJSON['username'], $usuarioJSON['email'], $usuarioJSON['pass'], $usuarioJSON['pais'], $usuarioJSON['imagen']);)
+        $usuario->setId($usuarioJSON['id']);
+        $todosPHP[]=$usuario;
+        }
         return $todosPHP;
   }
 
 //guarda usuario en el JSON (usa crearUsuario() que va estar declarada en clase usuario
-function guardarUsuario($data, $imagen){  /*ACA HAY ALGO PARA PREGUNTAR*/
-      $usuario = crearUsuario($data, $imagen);
-   		$usuarioJSON = json_encode($usuario);
-   		file_put_contents('usuarios.json', $usuarioJSON . PHP_EOL, FILE_APPEND);
+//paso variables Usuario y DB. Corregir invocacion de funcion con pasaje de variables
+function guardarUsuario(Usuario $usuario, DB $db){  /*ACA HAY ALGO PARA PREGUNTAR*/
+      $usuariotemp = $usuario->crearUsuario($db);
+   		$usuarioJSON = json_encode($usuariotemp);
+   		file_put_contents($this->archive, $usuarioJSON . PHP_EOL, FILE_APPEND);
    		// Devuelvo al usuario para poder auto loguearlo después del registro   MIRAR ACAAAAAAAAAAAAAAAAAAAAAAAAAAA
    		return $usuario;
 }
@@ -53,12 +58,13 @@ function guardarUsuario($data, $imagen){  /*ACA HAY ALGO PARA PREGUNTAR*/
 //busca ultimo ID para asignar a nuevo usuario
 public function traerUltimoId(){
 
-  $arrayDeUsuarios=self::traerTodos();
+  $arrayDeUsuarios=$this->traerTodos();
   if(empty($arrayDeUsuarios)){
       return 1;
   }
+  //si hay usuarios en el array, traigo el ultimo
   $elUltimo = array_pop($arrayDeUsuarios);
-  $id = $elUltimo['id'];
+  $id = $elUltimo->getId();
   //$id = $elUltimo->id;                                                        //   MODIFIQUE ACAAAAAAAAAAA
   //$id = $elUltimo->getId();
   return $id + 1;
@@ -66,7 +72,7 @@ public function traerUltimoId(){
 
 
   //guarda Imagen de usuario en Json
-  function guardarImagen($imagen){   // aca modifique $imagen antes estaba $_FILES[$imagen]
+  function guardarImagen($imagen,$email){   // aca modifique $imagen antes estaba $_FILES[$imagen]
       // $errores = [];
      if ($imagen['error'] == UPLOAD_ERR_OK) {
   				     $nombreArchivo = $imagen['name'];
@@ -76,7 +82,7 @@ public function traerUltimoId(){
   				    // if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png') {   VAMOS A ELIMINAR ESTO PORQUE EN TEORIA YA LO COMPRUEBA EN LA FUNCION VALIDAR
   				       // Armo la ruta donde queda gurdada la imagen
   				       $direccionReal = dirname(__FILE__);
-  				       $rutaFinalConNombre = $direccionReal . '/imagenUsuarios/' . $_POST['email'] . '.' . $ext;
+  				       $rutaFinalConNombre = $direccionReal . '/imagenUsuarios/' . $email. '.' . $ext;
   				       // Subo la imagen definitivamente
   				       move_uploaded_file($archivoFisico, $rutaFinalConNombre);
   				                  /* } else {
@@ -94,10 +100,10 @@ public function traerUltimoId(){
 
   //traje traerPorId($id) desde funciones.php
   public function traerPorId($id){
-  		$todos = self::traerTodos();
+  		$todos = $this->traerTodos();
   		// Recorro el array de todos los usuarios
   		foreach ($todos as $usuario) {
-  			if ($id == $usuario['id']) {
+  			if ($id == $usuario->getId()) {
   				return $usuario;
   			}
   		}

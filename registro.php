@@ -1,13 +1,13 @@
 <?php
-require_once('funciones.php');
+require_once('soporte.php');
 require_once('usuario.php');
-require_once('usuarios.php');
 require_once('validaciones.php');
 
-
+//ver si hay que comentar
 $data=$_POST;
 
-if (estaLogueado()) {
+//agrego llamado a funcion de objeto auth
+if ($auth->estaLogueado()) {
 		header('location: perfil.php');
 		exit;
 	}
@@ -26,15 +26,20 @@ if ($_POST) {
     $email = trim($_POST['email']);
     $pais = trim($_POST['pais']);
     $username = trim($_POST['username']);
-    $imagen = $_FILES["imagen"];
+    $imagen = $_FILES['imagen'];
 
-    $errores = Validaciones::validarDatos($_POST, $imagen);
+    $errores =$validator->validarDatos($db, $imagen);
 
     if (empty($errores)) {
       //      $usuario = new Usuario(Usuarios::traerUltimoId(), $data['name'], $data['email'], $data['pais'], $data['username'], password_hash($data['pass'], PASSWORD_DEFAULT));
       //Usuario::guardar($usuario);  esta puso javi y lo cambie
+
+			$errores=$db->guardarImagen($imagen,$email);
+
+			//ver de agregar validacion errores imagen
+
 			$usuario = new Usuario();
-			$usuario->setId(Usuarios::traerUltimoId());
+			$usuario->setId($db->traerUltimoId());
 			$usuario->setName($data['name']);
 			$usuario->setEmail($data['email']);
 			$usuario->setPais($data['pais']);
@@ -46,7 +51,7 @@ if ($_POST) {
     }
 }
 
- ?>
+?>
 
 <!DOCTYPE html>
 <html>

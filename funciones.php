@@ -1,12 +1,14 @@
 <?php
-session_start();
+
+//comento esto - el seteo de la cookie lo dejo en auth como el ejemplo
+/*session_start();
 
 
 if (isset($_COOKIE['id'])) {
 		$_SESSION['id'] = $_COOKIE['id'];
-	}
+}*/
 
-//comenta la funcion, la mudé a la clase Usuario
+//comente la funcion, la mudé a la clase Usuario
 /*function crearUsuario($data, $imagen){
     $usuario = [
         'id' => traerUltimoId(),

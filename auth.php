@@ -5,11 +5,11 @@ class Auth{
 public function__construct(){
 //validar si es necesario agregarlo
   session_start();
-/*
+
 //validar si el seteo aca esta ok
-if (isset($_COOKIE["id"]) && !$this->estaLogueado()) {
-  $this->loguear($_COOKIE["id"]);
-}*/
+if (isset($_COOKIE['id']) && !$this->estaLogueado()) {
+  $this->loguear($_COOKIE['id']);
+}
 }
 //declaro funcion loguear($usuario)
 public function loguear($usuario) {

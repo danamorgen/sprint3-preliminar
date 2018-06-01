@@ -11,15 +11,15 @@ private $password;
 private $imagen; //agrego la variable imagen
 
 
-/*public function __construct ($id, $name, $email, $pais, $username, $password){
-  $this->id= $id;
+public function __construct ($id, $name, $email, $pais, $username, $password){
+  //$this->id= $id;
   $this->name= $name;
   $this->email= $email;
   $this->pais= $pais;
   $this->username= $username;
   $this->password= $password;
   $this->imagen=$imagen;
-}*/
+}
 /*public function __construct(){
 
 }*/
@@ -27,12 +27,12 @@ private $imagen; //agrego la variable imagen
 //agrego funcion crearUsuario()
 function crearUsuario($data, $imagen){
     $usuario = [
-        'id' => traerUltimoId(),
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'username' => $data['username'],
-        'pass' => password_hash($data['pass'], PASSWORD_DEFAULT),
-        'pais' => $data['pais'],
+        'id' => $db->traerUltimoId(),
+        'name' => $this->name,
+        'email' => $this->email,
+        'username' => $this->username,
+        'pass' => password_hash($this->password], PASSWORD_DEFAULT),
+        'pais' => $this->pais,
         'imagen' => 'imagenUsuarios/' . $data['email'] . '.' . pathinfo($imagen['name'], PATHINFO_EXTENSION)
 
     ];
